@@ -27,7 +27,14 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  output: 'export',
+  distDir: 'out',
+  // Add basePath if deploying to a path other than root
+  // basePath: process.env.NODE_ENV === 'production' ? '/your-repo-name' : '',
 }
+
+// Set the assetPrefix for GitHub Pages if not using a custom domain
+// nextConfig.assetPrefix = process.env.NODE_ENV === 'production' ? 'https://keatonrproud.github.io/your-repo-name' : '';
 
 if (userConfig) {
   // ESM imports will have a "default" property
