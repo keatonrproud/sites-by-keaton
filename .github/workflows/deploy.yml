@@ -2,17 +2,19 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   workflow_dispatch:
 
+# Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Only run one concurrent deployment
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -20,29 +22,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: false # Explicitly skip submodule checkout
-          
-      - name: Setup Node
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: '20'
           cache: 'npm'
-          
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
       - name: Install dependencies
-        run: npm ci
-        
-      - name: Build with Next.js
+        run: npm install
+      - name: Build
         run: npm run build
-        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
-
+          path: ./dist
+  
   deploy:
     environment:
       name: github-pages
