@@ -1,44 +1,54 @@
-# Dev.KeatonRProud.com
+# React + TypeScript + Vite
 
-Personal website deployed to GitHub Pages.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Development
+Currently, two official plugins are available:
 
-```bash
-# Start development server
-npm run dev
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-## Deployment to GitHub Pages
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-1. Build and export the site:
-   ```bash
-   npm run predeploy
-   ```
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-2. Deploy to GitHub Pages:
-   ```bash
-   npm run deploy
-   ```
-
-## GitHub Pages Setup
-
-- Custom domain: dev.keatonrproud.com
-- CNAME file is automatically included in the build
-
-## Adding a custom domain to GitHub Pages
-
-1. Go to your GitHub repository settings
-2. Navigate to Pages section
-3. Under "Custom domain" enter: dev.keatonrproud.com
-4. Check "Enforce HTTPS" once DNS propagation is complete
-
-## DNS Configuration
-
-Add these records to your DNS configuration for your domain:
-
-- A record: @ → 185.199.108.153
-- A record: @ → 185.199.109.153
-- A record: @ → 185.199.110.153
-- A record: @ → 185.199.111.153
-- CNAME record: dev → keatonrproud.github.io. 
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```
